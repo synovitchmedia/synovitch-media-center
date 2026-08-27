@@ -1,4 +1,5 @@
-Deploy Synovitch Media Center
+name: Deploy Synovitch Media Center
+
 on:
   push:
     branches:
@@ -38,12 +39,12 @@ jobs:
           path: ./dist
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Deploy

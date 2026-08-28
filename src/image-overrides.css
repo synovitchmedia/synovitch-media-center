@@ -1,0 +1,87 @@
+/* Image responsive helpers and overlay styles for SYNOVITCH MEDIA CENTER
+   Added: responsive image positioning, dark overlays, and responsive grid tweaks
+*/
+
+.project { position: relative; overflow: hidden; }
+.project-img,
+.manifesto-img,
+.africa-media {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  /* place image under overlay content */
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Ensure overlay sits above images */
+.project-overlay,
+.manifesto-overlay,
+.africa-card-body {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+
+/* Darkened overlay for readability */
+.project::after,
+.manifesto-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%);
+  z-index: 1;
+  transition: background 0.25s ease;
+  pointer-events: none;
+}
+
+/* Slightly stronger overlay on hover */
+.project:hover::after {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.8) 100%);
+}
+
+/* Hide default background-attachment fixed for mobile to avoid jank */
+@media (max-width: 900px) {
+  .manifesto-card { background-attachment: scroll !important; }
+}
+
+/* Responsive grids */
+.projects-grid,
+.manifesto-grid,
+.africa-grid {
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .projects-grid,
+  .manifesto-grid,
+  .africa-grid,
+  .services-grid,
+  .why-us-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero { padding-top: 120px; padding-bottom: 80px; }
+  .hero h1 { font-size: clamp(34px, 10vw, 58px); }
+}
+
+/* Ensure cards have min-height but allow images to crop nicely on mobile */
+.project, .manifesto-card, .africa-card {
+  min-height: 240px;
+  border-radius: var(--radius);
+}
+
+/* Accessibility: better contrast for overlay text */
+.project-overlay h3,
+.manifesto-overlay h3 {
+  color: var(--paper);
+  text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* Safe fallback if image removed by onError (keeps card layout) */
+.project-img[style*="display: none"],
+.manifesto-img[style*="display: none"],
+.africa-media[style*="display: none"] {
+  display: none;
+}

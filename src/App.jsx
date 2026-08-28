@@ -9,117 +9,239 @@ const contact = {
 const stats = [
   ["150+", "Projets réalisés"],
   ["80+", "Clients satisfaits"],
-  ["5+", "Années d'expérience"],
-  ["ABJ", "Abidjan, Côte d'Ivoire"],
+  ["5+", "Années d’expérience"],
+  ["ABJ", "Abidjan, Côte d’Ivoire"],
 ];
 
 const services = [
-  ["01", "Production vidéo", "Films de marque, publicités et contenus qui donnent du mouvement à vos idées."],
-  ["02", "Photographie", "Des images précises et sensibles pour révéler vos produits, équipes et univers."],
-  ["03", "Montage & post-production", "Rythme, couleur et finition : chaque détail compte jusqu'à la dernière image."],
-  ["04", "Audio & musique", "Une identité sonore qui installe l'émotion et rend vos messages mémorables."],
-  ["05", "Marketing digital", "Des contenus pensés pour circuler, engager et construire une présence durable."],
+  {
+    number: "01",
+    title: "Production vidéo",
+    text: "Films de marque, publicités et contenus qui donnent du mouvement à vos idées.",
+  },
+  {
+    number: "02",
+    title: "Photographie",
+    text: "Des images précises et sensibles pour révéler vos produits, équipes et univers.",
+  },
+  {
+    number: "03",
+    title: "Montage & post-production",
+    text: "Rythme, couleur et finition : chaque détail compte jusqu’à la dernière image.",
+  },
+  {
+    number: "04",
+    title: "Audio & musique",
+    text: "Une identité sonore qui installe l’émotion et rend vos messages mémorables.",
+  },
+  {
+    number: "05",
+    title: "Marketing digital",
+    text: "Des contenus pensés pour circuler, engager et construire une présence durable.",
+  },
 ];
 
 const projects = [
-  ["Publicité automobile", "Campagne / Film de marque", "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=85"],
-  ["Clip musical", "Direction artistique / Clip", "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=85"],
-  ["Film institutionnel", "Portrait / Entreprise", "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85"],
-  ["Spot commercial", "Publicité / Social media", "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=85"],
+  ["Publicité automobile", "Campagne / Film de marque"],
+  ["Clip musical", "Direction artistique / Clip"],
+  ["Film institutionnel", "Portrait / Entreprise"],
+  ["Spot commercial", "Publicité / Social media"],
 ];
 
-function SectionHeading({ eyebrow, title, copy }) {
+function SectionHeading({ eyebrow, title, text }) {
   return (
     <div className="section-heading">
-      <p className="eyebrow">{eyebrow}</p>
+      <span>{eyebrow}</span>
       <h2>{title}</h2>
-      {copy && <p className="section-copy">{copy}</p>}
+      <p>{text}</p>
     </div>
   );
 }
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <div className="app">
-      <header className="site-header">
-        <a className="brand" href="#accueil" onClick={closeMenu} aria-label="Synovitch Media Center, accueil">
-          <span className="brand-mark">S</span>
-          <span>SYNOVITCH <b>MEDIA CENTER</b></span>
+    <div className="site">
+      <header className="navbar">
+        <a href="#accueil" className="logo">
+          <span className="logo-mark">S</span>
+          <span>
+            SYNOVITCH
+            <small>MEDIA CENTER</small>
+          </span>
         </a>
-        <button className="menu-toggle" type="button" aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>
-          <span /><span />
+
+        <button
+          className="menu-button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Ouvrir le menu"
+        >
+          ☰
         </button>
-        <nav id="main-navigation" className={menuOpen ? "is-open" : ""} aria-label="Navigation principale">
-          <a href="#accueil" onClick={closeMenu}>Accueil</a>
-          <a href="#a-propos" onClick={closeMenu}>À propos</a>
-          <a href="#services" onClick={closeMenu}>Services</a>
-          <a href="#realisations" onClick={closeMenu}>Réalisations</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-cta" href={contact.whatsapp} target="_blank" rel="noreferrer" onClick={closeMenu}>Nous contacter <span>↗</span></a>
+
+        <nav className={menuOpen ? "nav-links open" : "nav-links"}>
+          <a href="#accueil" onClick={() => setMenuOpen(false)}>Accueil</a>
+          <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
+          <a href="#projets" onClick={() => setMenuOpen(false)}>Projets</a>
+          <a href="#agence" onClick={() => setMenuOpen(false)}>L’agence</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
         </nav>
+
+        <a className="nav-cta" href={contact.whatsapp} target="_blank" rel="noreferrer">
+          Parlons de votre projet ↗
+        </a>
       </header>
 
       <main>
-        <section id="accueil" className="hero">
-          <div className="hero-backdrop" />
+        <section className="hero" id="accueil">
+          <div className="hero-glow glow-one"></div>
+          <div className="hero-glow glow-two"></div>
+
           <div className="hero-content">
-            <p className="eyebrow">Création <span>•</span> Production <span>•</span> Innovation</p>
-            <h1>Nous racontons<br />votre histoire<br /><em>en grand.</em></h1>
-            <p className="hero-copy">SYNOVITCH MEDIA CENTER crée des contenus audiovisuels puissants pour les marques, les entreprises et les artistes.</p>
+            <p className="eyebrow">STUDIO CRÉATIF · ABIDJAN</p>
+
+            <h1>
+              Nous donnons
+              <br />
+              <em>vie à vos idées.</em>
+            </h1>
+
+            <p className="hero-text">
+              SYNOVITCH MEDIA CENTER accompagne les marques, entreprises et
+              artistes dans la création de contenus visuels et sonores
+              qui marquent les esprits.
+            </p>
+
             <div className="hero-actions">
-              <a className="button button-gold" href="#services">Découvrir nos services <span>↓</span></a>
-              <a className="button button-quiet" href="#realisations">Voir nos réalisations <span>↗</span></a>
+              <a className="button button-primary" href="#projets">
+                Découvrir nos projets
+              </a>
+              <a className="button button-secondary" href="#contact">
+                Nous contacter
+              </a>
             </div>
           </div>
-          <p className="scroll-note">Défiler pour découvrir <span>↓</span></p>
-        </section>
 
-        <section className="stats-bar" aria-label="Chiffres clés">
-          {stats.map(([value, label]) => <div className="stat" key={label}><strong>{value}</strong><span>{label}</span></div>)}
-        </section>
-
-        <section id="a-propos" className="about section-shell">
-          <div className="about-label">SYNOVITCH<br />MEDIA CENTER</div>
-          <div className="about-content">
-            <SectionHeading eyebrow="À propos" title={<>Des idées fortes.<br /><em>Des images mémorables.</em></>} />
-            <p>Nous sommes une maison de création audiovisuelle basée à Abidjan. Nous transformons les intentions en images, les messages en émotions et les projets en histoires qui restent.</p>
-            <a className="text-link" href="#contact">Parlons de votre projet <span>↗</span></a>
-          </div>
-          <div className="about-number">01 <span>/ 04</span></div>
-        </section>
-
-        <section id="services" className="services section-shell">
-          <SectionHeading eyebrow="Ce que nous faisons" title={<>Des talents réunis<br /><em>pour créer l'impact.</em></>} copy="De la première idée à la diffusion, nous donnons à chaque projet une forme juste, singulière et ambitieuse." />
-          <div className="service-grid">
-            {services.map(([number, title, description]) => <article className="service-card" key={title}><span className="service-number">{number}</span><div className="service-icon">✦</div><h3>{title}</h3><p>{description}</p><a className="card-link" href="#contact" aria-label={`En savoir plus sur ${title}`}>En savoir plus <span>↗</span></a></article>)}
+          <div className="hero-card">
+            <div className="hero-card-top">
+              <span>SMC</span>
+              <span>01 / 05</span>
+            </div>
+            <div className="hero-card-center">
+              <div className="play">▶</div>
+              <p>CREATE · CAPTURE · CONNECT</p>
+            </div>
           </div>
         </section>
 
-        <section id="realisations" className="work section-shell">
-          <div className="work-heading"><SectionHeading eyebrow="Notre regard" title={<>Les histoires parlent<br /><em>plus fort que les mots.</em></>} /><a className="text-link desktop-link" href="#contact">Voir tous les projets <span>↗</span></a></div>
-          <div className="project-grid">
-            {projects.map(([title, category, image], index) => <article className={`project-card project-${index + 1}`} key={title}><img src={image} alt={`Projet ${title}`} /><div className="project-overlay"><p>{category}</p><h3>{title}</h3><a href="#contact" aria-label={`Découvrir le projet ${title}`}>▶</a></div></article>)}
+        <section className="stats">
+          {stats.map(([number, label]) => (
+            <div className="stat" key={label}>
+              <strong>{number}</strong>
+              <span>{label}</span>
+            </div>
+          ))}
+        </section>
+
+        <section className="section services" id="services">
+          <SectionHeading
+            eyebrow="NOS EXPERTISES"
+            title="Une vision. Plusieurs savoir-faire."
+            text="De l’idée à la diffusion, nous construisons des expériences de marque cohérentes, créatives et efficaces."
+          />
+
+          <div className="services-grid">
+            {services.map((service) => (
+              <article className="service-card" key={service.number}>
+                <span className="service-number">{service.number}</span>
+                <h3>{service.title}</h3>
+                <p>{service.text}</p>
+                <span className="service-arrow">↗</span>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section id="produits" className="products section-shell">
-          <SectionHeading eyebrow="La boutique" title={<>Une autre façon de<br /><em>porter notre signature.</em></>} copy="Retrouvez également notre sélection de parfums et de tee-shirts, disponible pour vos commandes à Abidjan." />
-          <div className="product-grid">
-            <article className="product-card"><span className="product-symbol">◎</span><div><h3>Parfums</h3><p>Élégance, Prestige et Intense. Des fragrances raffinées et longue tenue.</p></div><a className="card-link" href="#contact">Commander <span>↗</span></a></article>
-            <article className="product-card"><span className="product-symbol">□</span><div><h3>Tee-shirts</h3><p>Classic, Premium et Urban. Des modèles modernes et universels.</p></div><a className="card-link" href="#contact">Commander <span>↗</span></a></article>
+        <section className="section projects" id="projets">
+          <SectionHeading
+            eyebrow="SELECTED WORK"
+            title="Des images qui parlent."
+            text="Quelques univers créatifs parmi les projets que nous pouvons imaginer avec vous."
+          />
+
+          <div className="projects-grid">
+            {projects.map(([title, category], index) => (
+              <article className={`project project-${index + 1}`} key={title}>
+                <div className="project-overlay">
+                  <span>{category}</span>
+                  <h3>{title}</h3>
+                  <a href="#contact">Voir le projet ↗</a>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section id="contact" className="contact section-shell">
-          <p className="eyebrow">Un projet en tête ?</p><h2>Faisons-le<br /><em>exister.</em></h2><p className="contact-copy">Discutons-en et créons ensemble quelque chose d'exceptionnel.</p>
-          <div className="contact-actions"><a className="button button-gold" href={contact.whatsapp} target="_blank" rel="noreferrer">WhatsApp <span>↗</span></a><a className="button button-outline" href={`mailto:${contact.email}`}>E-mail <span>↗</span></a><a className="button button-outline" href={`mailto:${contact.email}?subject=Démarrer un projet`}>Démarrer un projet <span>↗</span></a></div>
+        <section className="section about" id="agence">
+          <div className="about-number">SMC</div>
+
+          <div>
+            <p className="eyebrow">L’AGENCE</p>
+            <h2>
+              La créativité au service
+              <br />
+              de <em>l’impact.</em>
+            </h2>
+          </div>
+
+          <div className="about-text">
+            <p>
+              Nous croyons qu’une bonne image ne se contente pas d’être belle.
+              Elle doit raconter, provoquer une émotion et rester en mémoire.
+            </p>
+            <p>
+              Notre approche combine direction artistique, production,
+              technologie et stratégie pour créer des contenus qui servent
+              réellement vos ambitions.
+            </p>
+          </div>
+        </section>
+
+        <section className="contact" id="contact">
+          <div>
+            <p className="eyebrow">UN PROJET EN TÊTE ?</p>
+            <h2>
+              Faisons quelque chose
+              <br />
+              de <em>mémorable.</em>
+            </h2>
+          </div>
+
+          <div className="contact-actions">
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer">
+              WhatsApp ↗
+            </a>
+            <a href={`mailto:${contact.email}`}>
+              {contact.email}
+            </a>
+          </div>
         </section>
       </main>
 
-      <footer className="site-footer"><div className="footer-top"><a className="brand" href="#accueil"><span className="brand-mark">S</span><span>SYNOVITCH <b>MEDIA CENTER</b></span></a><p>Créateurs d'images,<br />façonneurs d'histoires.</p><a className="footer-arrow" href="#accueil" aria-label="Retour en haut">↑</a></div><div className="footer-columns"><div><span className="footer-label">Navigation</span><a href="#a-propos">À propos</a><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="#contact">Contact</a></div><div><span className="footer-label">Contact</span><a href={contact.whatsapp} target="_blank" rel="noreferrer">+225 05 04 83 10 90</a><a href={`mailto:${contact.email}`}>{contact.email}</a><span>Abidjan, Côte d'Ivoire</span></div></div><div className="footer-bottom"><span>© 2026 Synovitch Media Center</span><span>Mentions légales · Politique de confidentialité</span><span>Fait avec intention.</span></div></footer>
+      <footer className="footer">
+        <div className="logo">
+          <span className="logo-mark">S</span>
+          <span>
+            SYNOVITCH
+            <small>MEDIA CENTER</small>
+          </span>
+        </div>
+
+        <p>© 2026 SYNOVITCH MEDIA CENTER · Abidjan, Côte d’Ivoire</p>
+
+        <a href="#accueil">Retour en haut ↑</a>
+      </footer>
     </div>
   );
 }

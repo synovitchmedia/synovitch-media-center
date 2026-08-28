@@ -41,10 +41,12 @@ const services = [
   },
 ];
 
+// Projects: keep titles and fallbacks but use image URLs optimized for responsive loading
 const projects = [
   {
     title: "Publicité automobile",
     category: "Campagne / Film de marque",
+    // base image (no query params) - we will build src/srcSet dynamically in render
     image: "https://images.unsplash.com/photo-1617469767537-b85ba699fcde?w=800&h=600&fit=crop",
     fallback: "https://via.placeholder.com/800x600/1a1a1a/c9a45c?text=Publicité+Automobile",
   },
@@ -96,21 +98,25 @@ const africaHighlights = [
     title: "Talents Africains",
     description: "Révéler et amplifier les voix créatives du continent",
     icon: "🎬",
+    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=900&h=600&fit=crop",
   },
   {
     title: "Entrepreneuriat & Innovation",
     description: "Accompagner la croissance économique avec des images percutantes",
     icon: "🚀",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&h=600&fit=crop",
   },
   {
     title: "Culture & Créativité",
     description: "Célébrer la richesse culturelle et la modernité africaine",
     icon: "🎭",
+    image: "https://images.unsplash.com/photo-1520975920911-1b3d4e9a3fbd?w=900&h=600&fit=crop",
   },
   {
     title: "Technologie & Développement",
     description: "Montrer une Afrique ambitieuse, connectée et tournée vers l'avenir",
     icon: "💡",
+    image: "https://images.unsplash.com/photo-1531497865140-3f2b53b0a9f7?w=900&h=600&fit=crop",
   },
 ];
 
@@ -149,6 +155,17 @@ function SectionHeading({ eyebrow, title, text }) {
       <p>{text}</p>
     </div>
   );
+}
+
+function buildSrcSet(baseUrl) {
+  // baseUrl may include query params; strip them to append new w= params
+  const clean = baseUrl.split('?')[0];
+  return `${clean}?w=400&fit=crop 400w, ${clean}?w=800&fit=crop 800w, ${clean}?w=1200&fit=crop 1200w`;
+}
+
+function buildDefaultSrc(baseUrl) {
+  const clean = baseUrl.split('?')[0];
+  return `${clean}?w=800&fit=crop`;
 }
 
 function App() {
@@ -267,23 +284,34 @@ function App() {
           />
 
           <div className="projects-grid">
-            {projects.map((project, index) => (
-              <article 
-                className={`project project-${index + 1}`} 
-                key={project.title}
-                style={{
-                  backgroundImage: `url('${project.image}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="project-overlay">
-                  <span>{project.category}</span>
-                  <h3>{project.title}</h3>
-                  <a href="#contact">Voir le projet ↗</a>
-                </div>
-              </article>
-            ))}
+            {projects.map((project, index) => {
+              const srcSet = buildSrcSet(project.image);
+              const src = buildDefaultSrc(project.image);
+              return (
+                <article
+                  className={`project project-${index + 1}`}
+                  key={project.title}
+                  style={{ background: project.fallback.startsWith('http') ? `url('${project.fallback}') center/cover` : undefined }}
+                >
+                  {/* responsive, lazy-loaded img for better performance and alt text for accessibility */}
+                  <img
+                    className="project-img"
+                    src={src}
+                    srcSet={srcSet}
+                    sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    alt={`${project.title} - ${project.category}`}
+                    loading="lazy"
+                    onError={(e) => { if (project.fallback) e.target.src = project.fallback; }}
+                  />
+
+                  <div className="project-overlay">
+                    <span>{project.category}</span>
+                    <h3>{project.title}</h3>
+                    <a href="#contact">Voir le projet ↗</a>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 
@@ -300,9 +328,21 @@ function App() {
           <div className="africa-grid">
             {africaHighlights.map((highlight, index) => (
               <div className="africa-card" key={highlight.title}>
-                <div className="africa-card-icon">{highlight.icon}</div>
-                <h3>{highlight.title}</h3>
-                <p>{highlight.description}</p>
+                <img
+                  className="africa-media"
+                  src={highlight.image.split('?')[0] + '?w=800&fit=crop'}
+                  srcSet={`${highlight.image.split('?')[0]}?w=400&fit=crop 400w, ${highlight.image.split('?')[0]}?w=800&fit=crop 800w, ${highlight.image.split('?')[0]}?w=1200&fit=crop 1200w`}
+                  sizes="(max-width: 600px) 100vw, 50vw"
+                  alt={highlight.title}
+                  loading="lazy"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+
+                <div className="africa-card-body">
+                  <div className="africa-card-icon">{highlight.icon}</div>
+                  <h3>{highlight.title}</h3>
+                  <p>{highlight.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -312,7 +352,7 @@ function App() {
           </div>
         </section>
 
-        {/* MANIFESTO SECTION */}
+        {/* MANIFESTO / INSPIRATION SECTION */}
         <section className="section manifesto">
           <div className="manifesto-header">
             <h2>Notre Manifeste</h2>
@@ -320,21 +360,28 @@ function App() {
           </div>
 
           <div className="manifesto-grid">
-            {manifestoPhrases.map((phrase, index) => (
-              <div 
-                className="manifesto-card" 
-                key={index}
-                style={{
-                  backgroundImage: `url('${phrase.image}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="manifesto-overlay">
-                  <h3>{phrase.text}</h3>
+            {manifestoPhrases.map((phrase, index) => {
+              const srcSet = buildSrcSet(phrase.image);
+              const src = buildDefaultSrc(phrase.image);
+
+              return (
+                <div className="manifesto-card" key={index}>
+                  <img
+                    className="manifesto-img"
+                    src={src}
+                    srcSet={srcSet}
+                    sizes="(max-width: 600px) 100vw, 50vw"
+                    alt={phrase.text}
+                    loading="lazy"
+                    onError={(e) => { if (phrase.fallback && typeof phrase.fallback === 'string' && phrase.fallback.startsWith('http')) e.target.src = phrase.fallback; }}
+                  />
+
+                  <div className="manifesto-overlay">
+                    <h3>{phrase.text}</h3>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 

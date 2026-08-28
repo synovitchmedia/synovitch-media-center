@@ -46,26 +46,25 @@ const projects = [
   {
     title: "Publicité automobile",
     category: "Campagne / Film de marque",
-    // base image (no query params) - we will build src/srcSet dynamically in render
-    image: "https://images.unsplash.com/photo-1617469767537-b85ba699fcde?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1617469767537-b85ba699fcde",
     fallback: "https://via.placeholder.com/800x600/1a1a1a/c9a45c?text=Publicité+Automobile",
   },
   {
     title: "Clip musical",
     category: "Direction artistique / Clip",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f",
     fallback: "https://via.placeholder.com/800x600/1a1a1a/c9a45c?text=Clip+Musical",
   },
   {
     title: "Film institutionnel",
     category: "Portrait / Entreprise",
-    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85",
     fallback: "https://via.placeholder.com/800x600/1a1a1a/c9a45c?text=Film+Institutionnel",
   },
   {
     title: "Spot commercial",
     category: "Publicité / Social media",
-    image: "https://images.unsplash.com/photo-1578567321235-9cfe4248b26e?w=800&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1578567321235-9cfe4248b26e",
     fallback: "https://via.placeholder.com/800x600/1a1a1a/c9a45c?text=Spot+Commercial",
   },
 ];
@@ -73,22 +72,22 @@ const projects = [
 const manifestoPhrases = [
   {
     text: "Les grandes idées commencent toujours quelque part.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
     fallback: "linear-gradient(135deg, rgba(201,164,92,0.1), rgba(9,9,9,0.9))",
   },
   {
     text: "Créons aujourd'hui les images qui raconteront demain.",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
     fallback: "linear-gradient(135deg, rgba(9,9,9,0.9), rgba(201,164,92,0.1))",
   },
   {
     text: "L'Afrique ne manque pas d'idées. Elle mérite de les faire rayonner.",
-    image: "https://images.unsplash.com/photo-1516738901601-de50cf0d2b4b?w=1200&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1516738901601-de50cf0d2b4b",
     fallback: "linear-gradient(135deg, rgba(120,100,70,0.2), rgba(9,9,9,0.95))",
   },
   {
     text: "Votre vision mérite une image à sa hauteur.",
-    image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd",
     fallback: "linear-gradient(135deg, rgba(201,164,92,0.15), rgba(0,0,0,0.95))",
   },
 ];
@@ -98,25 +97,25 @@ const africaHighlights = [
     title: "Talents Africains",
     description: "Révéler et amplifier les voix créatives du continent",
     icon: "🎬",
-    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=900&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde",
   },
   {
     title: "Entrepreneuriat & Innovation",
     description: "Accompagner la croissance économique avec des images percutantes",
     icon: "🚀",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
   },
   {
     title: "Culture & Créativité",
     description: "Célébrer la richesse culturelle et la modernité africaine",
     icon: "🎭",
-    image: "https://images.unsplash.com/photo-1520975920911-1b3d4e9a3fbd?w=900&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1520975920911-1b3d4e9a3fbd",
   },
   {
     title: "Technologie & Développement",
     description: "Montrer une Afrique ambitieuse, connectée et tournée vers l'avenir",
     icon: "💡",
-    image: "https://images.unsplash.com/photo-1531497865140-3f2b53b0a9f7?w=900&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1531497865140-3f2b53b0a9f7",
   },
 ];
 
@@ -158,14 +157,14 @@ function SectionHeading({ eyebrow, title, text }) {
 }
 
 function buildSrcSet(baseUrl) {
-  // baseUrl may include query params; strip them to append new w= params
+  // build srcset using WebP via Unsplash parameters for smaller payloads
   const clean = baseUrl.split('?')[0];
-  return `${clean}?w=400&fit=crop 400w, ${clean}?w=800&fit=crop 800w, ${clean}?w=1200&fit=crop 1200w`;
+  return `${clean}?w=400&fm=webp&q=75 400w, ${clean}?w=800&fm=webp&q=75 800w, ${clean}?w=1200&fm=webp&q=75 1200w`;
 }
 
 function buildDefaultSrc(baseUrl) {
   const clean = baseUrl.split('?')[0];
-  return `${clean}?w=800&fit=crop`;
+  return `${clean}?w=800&fm=webp&q=75`;
 }
 
 function App() {
@@ -291,7 +290,6 @@ function App() {
                 <article
                   className={`project project-${index + 1}`}
                   key={project.title}
-                  style={{ background: project.fallback.startsWith('http') ? `url('${project.fallback}') center/cover` : undefined }}
                 >
                   {/* responsive, lazy-loaded img for better performance and alt text for accessibility */}
                   <img
@@ -301,7 +299,7 @@ function App() {
                     sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     alt={`${project.title} - ${project.category}`}
                     loading="lazy"
-                    onError={(e) => { if (project.fallback) e.target.src = project.fallback; }}
+                    onError={(e) => { e.target.src = project.fallback; }}
                   />
 
                   <div className="project-overlay">
@@ -330,8 +328,8 @@ function App() {
               <div className="africa-card" key={highlight.title}>
                 <img
                   className="africa-media"
-                  src={highlight.image.split('?')[0] + '?w=800&fit=crop'}
-                  srcSet={`${highlight.image.split('?')[0]}?w=400&fit=crop 400w, ${highlight.image.split('?')[0]}?w=800&fit=crop 800w, ${highlight.image.split('?')[0]}?w=1200&fit=crop 1200w`}
+                  src={`${highlight.image}?w=800&fm=webp&q=75`}
+                  srcSet={`${highlight.image}?w=400&fm=webp&q=75 400w, ${highlight.image}?w=800&fm=webp&q=75 800w, ${highlight.image}?w=1200&fm=webp&q=75 1200w`}
                   sizes="(max-width: 600px) 100vw, 50vw"
                   alt={highlight.title}
                   loading="lazy"
@@ -373,7 +371,7 @@ function App() {
                     sizes="(max-width: 600px) 100vw, 50vw"
                     alt={phrase.text}
                     loading="lazy"
-                    onError={(e) => { if (phrase.fallback && typeof phrase.fallback === 'string' && phrase.fallback.startsWith('http')) e.target.src = phrase.fallback; }}
+                    onError={(e) => { /* keep overlay gradient fallback when image fails */ e.target.style.display = 'none'; }}
                   />
 
                   <div className="manifesto-overlay">

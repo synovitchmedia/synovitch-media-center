@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "./image-overrides.css";
 
 const contact = {
   email: "synovitchmediacenter@gmail.com",
@@ -219,7 +220,7 @@ function App() {
             </h1>
 
             <p className="hero-text">
-              De l'idée à la diffusion, nous créons des expériences visuelles et sonores qui marquent les esprits. SYNOVITCH MEDIA CENTER accompagne les marques, entreprises et artistes dans une vision créative sans limites.
+              De l'idée à la diffusion, nous créons des expériences visuelles et sonores qui marquent les esprits. SYNOVITCH MEDIA CENTER accompagne les marques, entreprises et artistes dans [...]
             </p>
 
             <div className="hero-actions">
